@@ -1,0 +1,53 @@
+{
+  "ethChat": "UniChat",
+  "loginTitle1": "Welcome to",
+  "loginSubtitle": "The future of web3 chat is here",
+  "connectCTA1": "Start by ",
+  "connectCTA2": "connecting to you wallet",
+  "xmtpFooter": "Powered by XMTP",
+  "githubFooter": "Check out source code",
+  "xmtpSignTitle": "You're almost done!",
+  "xmtpSignSubtitle": "One last thing remaining...",
+  "xmtpInstructions1": "Go back to your wallet app",
+  "xmtpInstructions2": "and authorize ETH chat",
+  "openWallet": "Open wallet",
+  "chatTitle": "Chat",
+  "chatFailedToLoad": "Failed to load conversations",
+  "chatEmpty": "No conversations yet :(",
+  "chatEmptyCTA": "Start a new conversation",
+  "retry": "Try again",
+  "logout": "Disconnect",
+  "newChatTitle": "Recipient address",
+  "durationInDays": "{days} days ago",
+  "@durationInSeconds": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "durationInHours": "{hours} hours ago",
+  "@durationInHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationInMinutes": "{minutes} minutes ago",
+  "@durationInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationInSeconds": "{seconds} seconds ago",
+  "@durationInSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  }
+}
