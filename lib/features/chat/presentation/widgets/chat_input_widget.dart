@@ -1,4 +1,5 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../ui/colors.dart';
@@ -30,6 +31,7 @@ class _State extends State<ChatInputWidget> {
     print('发送');
     if (text.isEmpty) return;
     widget.onNewMessage(text);
+    print(text);
     _controller.clear();
   }
 
@@ -43,31 +45,49 @@ class _State extends State<ChatInputWidget> {
             ),
           ),
           Material(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _controller,
-                autofocus: true,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  suffixIcon: IconButton(
-                    onPressed: _onSubmit,
-                    icon: const Icon(Icons.send),
-                  ),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: EthColors.cherryPink),
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                  ),
-                ),
-                onSubmitted: (_) => _onSubmit(),
-                onEditingComplete: ignore,
-                textInputAction: TextInputAction.send,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
+            child: Container(
+                height: 60,
+                width: MediaQuery.sizeOf(context).width,
+                decoration: BoxDecoration(
+                    // color: Colors.black,
+                    border: Border(
+                        top: BorderSide(
+                            width: 0.5,
+                            color: const Color.fromARGB(255, 200, 200, 200)))),
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width - 100,
+                      child: CupertinoTextField(
+                        controller: _controller,
+                        autofocus: true,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 241, 241, 241),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        onSubmitted: (_) => _onSubmit(),
+                        onEditingComplete: ignore,
+                        textInputAction: TextInputAction.send,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      // padding: EdgeInsets.all(8),
+                      alignment: Alignment.topCenter,
+                      height: 60,
+                      width: 80,
+                      child: CupertinoButton(
+                          child: Icon(CupertinoIcons.add_circled),
+                          onPressed: () => _onSubmit()),
+                    )
+                  ],
+                )),
           ),
         ],
       );

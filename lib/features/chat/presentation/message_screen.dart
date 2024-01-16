@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,15 +36,18 @@ class _State extends State<MessageScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(widget.topic),
+  Widget build(BuildContext context) => CupertinoPageScaffold(
+    
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(''),
+          // title: Text(widget.topic),
         ),
-        body: RefreshIndicator(
+        child: RefreshIndicator(
           onRefresh: () => _service.refreshMessages(widget.topic),
           child: SafeArea(
             child: Material(
               child: ChatInputWidget(
+                
                 onNewMessage: (message) => _service.sendMessage(
                   topic: widget.topic,
                   message: message,

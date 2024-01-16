@@ -11,6 +11,28 @@ import '../../../wallet_connect/presentation/wallet_connect_screen.dart';
 import '../../data/models/convo.dart';
 import '../../services/chat_service.dart';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../../../../core/widgets/refreshable_widget.dart';
+import '../../../../core/widgets/retry_widget.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/colors.dart';
+import '../../../../utils/extensions.dart';
+import '../../../session/services/session_cubit.dart';
+import '../../data/models/convo.dart';
+import '../../services/chat_service.dart';
+import '../widgets/new_chat_dialog.dart';
+import '../widgets/setting.dart';
+import '../widgets/chat.dart';
+import '../../services/xmtp/xmtp_repository.dart';
+import 'package:xmtp/xmtp.dart' as xmtp;
+
 TextStyle defultText = TextStyle(
     fontSize: 18,
     color: Color.fromARGB(255, 42, 42, 42),
@@ -39,13 +61,12 @@ bool dialogVisable = false;
 
 class ChatState extends State<Chat> {
   ChatState();
+  late ChatService _service;
 
   @override
   void initState() {
     super.initState();
-
-    
-    
+    _service = context.read<ChatService>();
   }
 
   @override
@@ -65,6 +86,9 @@ class ChatState extends State<Chat> {
     //     .navigateTo(context, 'talkToGpt', transition: TransitionType.fadeIn);
   }
 
+  void _openChat(String topic) =>
+      context.router.push(MessageRoute(topic: topic));
+
   Widget build(BuildContext context) => CupertinoPageScaffold(
         // resizeToAvoidBottomInset: true,
         navigationBar: CupertinoNavigationBar(
@@ -77,7 +101,11 @@ class ChatState extends State<Chat> {
             trailing: Container(
               // padding: EdgeInsets.all(5),
               // margin: EdgeInsets.all(2),
-              child: Icon(Icons.group_rounded,size: 24,color: mainBlue,),
+              child: Icon(
+                Icons.group_rounded,
+                size: 24,
+                color: mainBlue,
+              ),
               // child: CupertinoButton(
               //     onPressed: () {},
               //     child: Icon(CupertinoIcons.plus_app)
@@ -134,16 +162,16 @@ class ChatState extends State<Chat> {
                             //   fit: BoxFit.cover,
                             // ),
                           ),
-                          child: ListView(
-                            // padding: EdgeInsets.fromLTRB(15, 25, 15, 15),
-                            children: [
-                              Column(
+                          child: Container(
+                              height: MediaQuery.sizeOf(context).height,
+                              // padding: EdgeInsets.fromLTRB(15, 25, 15, 15),
+                              child: Column(
                                 children: [
                                   Row(
                                     children: [],
                                   ),
                                   Container(
-                                    height: 100,
+                                    height: 900,
                                     width: MediaQuery.sizeOf(context).width,
                                     padding: EdgeInsets.all(17),
                                     decoration: BoxDecoration(
@@ -154,111 +182,126 @@ class ChatState extends State<Chat> {
                                       //   Radius.circular(25),
                                       // ),
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          // height: 10,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                              const Radius.circular(25.0),
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                50.0), // 设置圆角的大小
-                                            child: Image.asset(
-                                              'assets/images/avt.png',
-                                              fit: BoxFit
-                                                  .cover, // 这将确保图片以合适的方式填充容器
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(padding: EdgeInsets.all(10)),
-                                        Container(
-                                          width: 200,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Tim Cook',
-                                                style: titleText,
-                                              ),
-                                              Text(
-                                                  '0x8b76000000000000000002434',
-                                                  style: tipsText,
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: MediaQuery.sizeOf(context).height,
+                                      child: StreamBuilder(
+                                        stream: _service.watchConversations(),
+                                        builder: (context, snapshot) {
+                                          final conversations = snapshot.data
+                                              .ifNull(() =>
+                                                  const IListConst<Convo>([]));
+
+                                          if (snapshot.hasError) {
+                                            return RetryWidget(
+                                              message:
+                                                  context.l10n.chatFailedToLoad,
+                                              onRetry:
+                                                  _service.refreshConversations,
+                                            );
+                                          }
+
+                                          return ListView.separated(
+                                            shrinkWrap: true,
+                                            itemCount: conversations.length,
+                                            separatorBuilder: (context, _) =>
+                                                const Divider(),
+                                            itemBuilder: (context, index) {
+                                              final conversation = conversations
+                                                  .elementAt(index);
+
+                                              return ListTile(
+                                                title: Text(
+                                                  conversation.peer,
+                                                  maxLines: 1,
                                                   overflow:
-                                                      TextOverflow.ellipsis),
-                                            ],
-                                          ),
-                                        )
-                                        // Offstage(
-                                        //   offstage: !showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Lottie.asset(
-                                        //         'assets/status/glass.json',
-                                        //         alignment: Alignment(10, 0),
-                                        //         fit: BoxFit.cover,
-                                        //         repeat: true),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: showPayWaitting,
-                                        //   child: Container(
-                                        //     width: 400,
-                                        //     child: Lottie.asset(
-                                        //         'assets/status/okMark.json',
-                                        //         alignment: Alignment(10, 0),
-                                        //         fit: BoxFit.cover,
-                                        //         repeat: true),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: !showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Container(
-                                        //       margin: EdgeInsets.fromLTRB(
-                                        //           0, 25, 0, 0),
-                                        //       child: Text(
-                                        //         '支付中 · · ·',
-                                        //         style: TextStyle(
-                                        //             color: Color.fromARGB(
-                                        //                 255, 53, 53, 53),
-                                        //             fontSize: 25 ,
-                                        //             fontWeight:
-                                        //                 FontWeight.bold),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Container(
-                                        //       margin: EdgeInsets.fromLTRB(
-                                        //           0, 25, 0, 0),
-                                        //       child: Text(
-                                        //         '感谢购买',
-                                        //         style: TextStyle(
-                                        //             color: Color.fromARGB(
-                                        //                 255, 53, 53, 53),
-                                        //             fontSize: 25 ,
-                                        //             fontWeight:
-                                        //                 FontWeight.bold),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                ),
+                                                subtitle: Text(
+                                                  context.elapsedTimeFormatted(
+                                                      conversation
+                                                          .lastOpenedAt),
+                                                ),
+                                                onTap: () => _openChat(
+                                                    conversation.topic),
+                                                trailing: const Icon(
+                                                    Icons.chevron_right),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
                                     ),
+                                    // child: Row(
+                                    //   children: [
+                                    //     Container(
+                                    //       // height: 10,
+                                    //       decoration: BoxDecoration(
+                                    //         color: Colors.white,
+                                    //         borderRadius: BorderRadius.all(
+                                    //           const Radius.circular(25.0),
+                                    //         ),
+                                    //       ),
+                                    //       child: ClipRRect(
+                                    //         borderRadius: BorderRadius.circular(
+                                    //             50.0), // 设置圆角的大小
+                                    //         child: Image.asset(
+                                    //           'assets/images/avt.png',
+                                    //           fit: BoxFit
+                                    //               .cover, // 这将确保图片以合适的方式填充容器
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     Padding(padding: EdgeInsets.all(10)),
+                                    //     Container(
+                                    //       width: 200,
+                                    //       child: Column(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment.spaceEvenly,
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment.start,
+                                    //         children: [
+                                    //           Text(
+                                    //             'Tim Cook',
+                                    //             style: titleText,
+                                    //           ),
+                                    //           Text(
+                                    //               '0x8b76000000000000000002434',
+                                    //               style: tipsText,
+                                    //               overflow:
+                                    //                   TextOverflow.ellipsis),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+
+                                    //     // Offstage(
+                                    //     //   offstage: !showPayWaitting,
+                                    //     //   child: Container(
+                                    //     //     child: Lottie.asset(
+                                    //     //         'assets/status/glass.json',
+                                    //     //         alignment: Alignment(10, 0),
+                                    //     //         fit: BoxFit.cover,
+                                    //     //         repeat: true),
+                                    //     //   ),
+                                    //     // ),
+                                    //     // Offstage(
+                                    //     //   offstage: showPayWaitting,
+                                    //     //   child: Container(
+                                    //     //     width: 400,
+                                    //     //     child: Lottie.asset(
+                                    //     //         'assets/status/okMark.json',
+                                    //     //         alignment: Alignment(10, 0),
+                                    //     //         fit: BoxFit.cover,
+                                    //     //         repeat: true),
+                                    //     //   ),
+                                    //     // ),
+                                    //   ],
+                                    // ),
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
+                              )),
                         ),
                       ],
                     ))

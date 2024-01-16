@@ -195,71 +195,71 @@ class _State extends State<ChatListScreen> {
           child: const Icon(Icons.chat),
         ),
 
-        // body: _widgetOptions.elementAt(currentPageIndex),
+        body: _widgetOptions.elementAt(currentPageIndex),
 
         //原本的消息列表
-        body: RefreshableWidget(
-          onRefresh: _service.refreshConversations,
-          child: Container(
-            child: StreamBuilder(
-              stream: _service.watchConversations(),
-              builder: (context, snapshot) {
-                final conversations =
-                    snapshot.data.ifNull(() => const IListConst<Convo>([]));
+        // body: RefreshableWidget(
+        //   onRefresh: _service.refreshConversations,
+        //   child: Container(
+        //     child: StreamBuilder(
+        //       stream: _service.watchConversations(),
+        //       builder: (context, snapshot) {
+        //         final conversations =
+        //             snapshot.data.ifNull(() => const IListConst<Convo>([]));
 
-                if (snapshot.hasError) {
-                  return RetryWidget(
-                    message: context.l10n.chatFailedToLoad,
-                    onRetry: _service.refreshConversations,
-                  );
-                }
+        //         if (snapshot.hasError) {
+        //           return RetryWidget(
+        //             message: context.l10n.chatFailedToLoad,
+        //             onRetry: _service.refreshConversations,
+        //           );
+        //         }
 
-                if (conversations.isEmpty) {
-                  return _EmptyConversations(onNewChat: _onNewChat);
-                }
+        //         if (conversations.isEmpty) {
+        //           return _EmptyConversations(onNewChat: _onNewChat);
+        //         }
 
-                return ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: conversations.length,
-                  separatorBuilder: (context, _) => const Divider(),
-                  itemBuilder: (context, index) {
-                    final conversation = conversations.elementAt(index);
+        //         return ListView.separated(
+        //           shrinkWrap: true,
+        //           itemCount: conversations.length,
+        //           separatorBuilder: (context, _) => const Divider(),
+        //           itemBuilder: (context, index) {
+        //             final conversation = conversations.elementAt(index);
 
-                    return ListTile(
-                      title: Text(
-                        conversation.peer,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      subtitle: Text(
-                        context.elapsedTimeFormatted(conversation.lastOpenedAt),
-                      ),
-                      onTap: () => _openChat(conversation.topic),
-                      trailing: const Icon(Icons.chevron_right),
-                    );
-                  },
-                );
-              },
-            ),
-            // child: StreamBuilder(
-            //   stream: _service.getMsgList(),
-            //   builder: (context, snapshot) {
-            //     final conversations =
-            //         snapshot.data.ifNull(() => const IListConst<Convo>([]));
-            //     return Container(
-            //         width: 200,
-            //         height: 900,
-            //         child: ListView.separated(
-            //             itemCount: conversations.length,
-            //             separatorBuilder: (context, _) => const Divider(),
-            //             itemBuilder: (context, snapshot) {
-            //               return Text('111');
-            //             }));
-            //   },
-            // ),
-          ),
-        ),
+        //             return ListTile(
+        //               title: Text(
+        //                 conversation.peer,
+        //                 maxLines: 1,
+        //                 overflow: TextOverflow.ellipsis,
+        //                 style: const TextStyle(fontSize: 16),
+        //               ),
+        //               subtitle: Text(
+        //                 context.elapsedTimeFormatted(conversation.lastOpenedAt),
+        //               ),
+        //               onTap: () => _openChat(conversation.topic),
+        //               trailing: const Icon(Icons.chevron_right),
+        //             );
+        //           },
+        //         );
+        //       },
+        //     ),
+        //     // child: StreamBuilder(
+        //     //   stream: _service.getMsgList(),
+        //     //   builder: (context, snapshot) {
+        //     //     final conversations =
+        //     //         snapshot.data.ifNull(() => const IListConst<Convo>([]));
+        //     //     return Container(
+        //     //         width: 200,
+        //     //         height: 900,
+        //     //         child: ListView.separated(
+        //     //             itemCount: conversations.length,
+        //     //             separatorBuilder: (context, _) => const Divider(),
+        //     //             itemBuilder: (context, snapshot) {
+        //     //               return Text('111');
+        //     //             }));
+        //     //   },
+        //     // ),
+        //   ),
+        // ),
       );
 }
 

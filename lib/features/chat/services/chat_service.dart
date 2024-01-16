@@ -12,7 +12,6 @@ import '../data/models/message.dart';
 import 'xmtp/xmtp_isolate.dart';
 import 'xmtp/xmtp_receiver.dart';
 
-
 // void displayConversations() async {
 //   try {
 //     await fetchConversations();
@@ -22,7 +21,6 @@ import 'xmtp/xmtp_receiver.dart';
 //     print('获取聊天列表失败: $e');
 //   }
 // }
-
 
 @injectable
 class ChatService {
@@ -37,7 +35,6 @@ class ChatService {
   final XmtpIsolate _isolate;
   final MessageRepository _messageRepository;
   final ConvoRepository _convoRepository;
-
 
   Stream<IList<Convo>> watchConversations() =>
       _convoRepository.watchConversations();
@@ -81,5 +78,4 @@ class ChatService {
           ),
         ],
       );
-
 }

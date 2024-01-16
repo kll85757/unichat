@@ -97,6 +97,9 @@ class XmtpReceiver {
         .readLastConversation()
         .letAsync((it) => it?.createdAt);
     final convos = await _client.listConversations(start: since);
+    print('信息列表');
+    print(convos);
+    print('信息列表');
     await _convoRepository.saveConversations(convos.map((it) => it.toDb()));
     _fillEmptyHistories().ignore();
 

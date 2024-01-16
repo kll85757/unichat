@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:xmtp/xmtp.dart' as xmtp;
 
 import '../../../../utils/namespace.dart';
+import '../../../wallet_connect/presentation/wallet_connect_screen.dart';
 import '../../data/models/message.dart';
 
 class MessageWidget extends StatelessWidget {
@@ -53,24 +54,51 @@ class _TextMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BubbleSpecialOne(
-            text: text,
-            isSender: isMine,
-            textStyle: const TextStyle(fontSize: 16,color: Colors.white),
-            color: Colors.blue,
-          ),
+          // BubbleSpecialOne(
+          //   text: text,
+          //   isSender: isMine,
+          //   textStyle: const TextStyle(fontSize: 16,color: Colors.white),
+          //   color: Colors.blue,
+          // ),
+          // Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 10)),
           Container(
-            
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Align(
-              alignment: isMine ? Alignment.topRight : Alignment.topLeft,
+            // width: MediaQuery.sizeOf(context).width,
+            margin: EdgeInsets.fromLTRB(17, 0, 17, 5),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16, 16, 14, 18),
+              decoration: BoxDecoration(
+                  color: mainBlue,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(5, 0, 0, 0),
+                      offset: Offset(3, 3),
+                      blurRadius: 20,
+                    )
+                  ],
+                  // border: Border.all(
+                  //   color: borderCopyd,
+                  //   width: 1,
+                  // ),
+                  borderRadius: BorderRadius.all(Radius.circular(17))),
               child: Text(
-                _formatter.format(sentAt),
-                style: const TextStyle(fontSize: 8),
+                text,
+                style: TextStyle(color: Colors.white,fontSize: 18),
               ),
             ),
           ),
+
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 18),
+          //   child: Align(
+          //     alignment: isMine ? Alignment.topRight : Alignment.topLeft,
+          //     child: Text(
+          //       _formatter.format(sentAt),
+          //       style: const TextStyle(fontSize: 8),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 8),
         ],
       );
