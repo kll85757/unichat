@@ -28,7 +28,8 @@ class MessageWidget extends StatelessWidget {
         future: _decode(),
         builder: (context, snapshot) {
           final content = snapshot.data;
-
+          print(message.encoded);
+          print(content);
           if (content is String) {
             return _TextMessageWidget(
               text: content,

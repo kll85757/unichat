@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluro/fluro.dart';
 import 'package:lottie/lottie.dart';
+import '../../../../route/application.dart';
 import '../../../../ui/colors.dart';
 
 TextStyle defultText = TextStyle(
@@ -14,7 +15,7 @@ TextStyle defultText = TextStyle(
     fontWeight: FontWeight.bold);
 TextStyle defultTextOther = TextStyle(
     fontSize: 18,
-    color: Color.fromARGB(255, 121, 121, 121),
+    color: Color.fromARGB(255, 165, 165, 165),
     fontWeight: FontWeight.bold);
 TextStyle tipsText = TextStyle(
   fontSize: 18,
@@ -54,15 +55,14 @@ class SettingState extends State<Setting> {
     //     .navigateTo(context, 'subPlan', transition: TransitionType.fadeIn);
   }
 
-  void _toTalk() {
-    // Application.routes
-    //     .navigateTo(context, 'talkToGpt', transition: TransitionType.fadeIn);
+  void _toEdit() {
+    Application.routes
+        .navigateTo(context, 'EditProfile', transition: TransitionType.cupertino);
   }
 
   Widget build(BuildContext context) => CupertinoPageScaffold(
         resizeToAvoidBottomInset: true,
         navigationBar: CupertinoNavigationBar(
-          
           middle: Text('Setting'),
           backgroundColor: Colors.white,
           padding: EdgeInsetsDirectional.fromSTEB(5, 10, 15, 8),
@@ -70,7 +70,7 @@ class SettingState extends State<Setting> {
           //   children: [
           //     // CupertinoButton(
           //     //   padding: EdgeInsets.zero,
-          //     //   onPressed: _toTalk,
+          //     //   onPressed: _toEdit,
           //     //   child: Container(
           //     //     height: 50,
           //     //     width: 30,
@@ -83,7 +83,7 @@ class SettingState extends State<Setting> {
           //     // ),
           //     // CupertinoButton(
           //     //   padding: EdgeInsets.zero,
-          //     //   onPressed: _toTalk,
+          //     //   onPressed: _toEdit,
           //     //   child: Container(
           //     //       width: 50,
           //     //       child: Text(
@@ -125,126 +125,132 @@ class SettingState extends State<Setting> {
                                   Row(
                                     children: [],
                                   ),
-                                  Container(
-                                    height: 120,
-                                    width: MediaQuery.sizeOf(context).width,
-                                    padding: EdgeInsets.all(17),
-                                    decoration: BoxDecoration(
-                                      color: CupertinoDynamicColor.resolve(
-                                          CupertinoColors.systemBackground,
-                                          context),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(25),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          // height: 10,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              const Radius.circular(25.0),
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                50.0), // 设置圆角的大小
-                                            child: Image.asset(
-                                              'assets/images/avt.png',
-                                              fit: BoxFit
-                                                  .cover, // 这将确保图片以合适的方式填充容器
-                                            ),
-                                          ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _toEdit();
+                                    },
+                                    child: Container(
+                                      height: 120,
+                                      width: MediaQuery.sizeOf(context).width,
+                                      padding: EdgeInsets.all(17),
+                                      decoration: BoxDecoration(
+                                        color: CupertinoDynamicColor.resolve(
+                                            CupertinoColors.systemBackground,
+                                            context),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(25),
                                         ),
-                                        Padding(padding: EdgeInsets.all(10)),
-                                        Container(
-                                          width: 200,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Tim Cook',
-                                                style: titleText,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            // height: 10,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                const Radius.circular(25.0),
                                               ),
-                                              Text(
-                                                'tim.cook#8541224',
-                                                style: tipsText,
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      50.0), // 设置圆角的大小
+                                              child: Image.asset(
+                                                'assets/images/tim.png',
+                                                fit: BoxFit
+                                                    .cover, // 这将确保图片以合适的方式填充容器
                                               ),
-                                              Text(
-                                                '0x8b76000000000000000002434',
-                                                style: tipsText,
-                                                overflow:TextOverflow.ellipsis
-                                              ),
-                                            ],
+                                            ),
                                           ),
-                                        )
-                                        // Offstage(
-                                        //   offstage: !showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Lottie.asset(
-                                        //         'assets/status/glass.json',
-                                        //         alignment: Alignment(10, 0),
-                                        //         fit: BoxFit.cover,
-                                        //         repeat: true),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: showPayWaitting,
-                                        //   child: Container(
-                                        //     width: 400,
-                                        //     child: Lottie.asset(
-                                        //         'assets/status/okMark.json',
-                                        //         alignment: Alignment(10, 0),
-                                        //         fit: BoxFit.cover,
-                                        //         repeat: true),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: !showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Container(
-                                        //       margin: EdgeInsets.fromLTRB(
-                                        //           0, 25, 0, 0),
-                                        //       child: Text(
-                                        //         '支付中 · · ·',
-                                        //         style: TextStyle(
-                                        //             color: Color.fromARGB(
-                                        //                 255, 53, 53, 53),
-                                        //             fontSize: 25 ,
-                                        //             fontWeight:
-                                        //                 FontWeight.bold),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // Offstage(
-                                        //   offstage: showPayWaitting,
-                                        //   child: Container(
-                                        //     child: Container(
-                                        //       margin: EdgeInsets.fromLTRB(
-                                        //           0, 25, 0, 0),
-                                        //       child: Text(
-                                        //         '感谢购买',
-                                        //         style: TextStyle(
-                                        //             color: Color.fromARGB(
-                                        //                 255, 53, 53, 53),
-                                        //             fontSize: 25 ,
-                                        //             fontWeight:
-                                        //                 FontWeight.bold),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
+                                          Padding(padding: EdgeInsets.all(10)),
+                                          Container(
+                                            width: 200,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Fuck Tim Cook',
+                                                  style: titleText,
+                                                ),
+                                                Text(
+                                                  'tim.cook#8541224',
+                                                  style: tipsText,
+                                                ),
+                                                Text(
+                                                    '0x8b76000000000000000002434',
+                                                    style: tipsText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                              ],
+                                            ),
+                                          )
+                                          // Offstage(
+                                          //   offstage: !showPayWaitting,
+                                          //   child: Container(
+                                          //     child: Lottie.asset(
+                                          //         'assets/status/glass.json',
+                                          //         alignment: Alignment(10, 0),
+                                          //         fit: BoxFit.cover,
+                                          //         repeat: true),
+                                          //   ),
+                                          // ),
+                                          // Offstage(
+                                          //   offstage: showPayWaitting,
+                                          //   child: Container(
+                                          //     width: 400,
+                                          //     child: Lottie.asset(
+                                          //         'assets/status/okMark.json',
+                                          //         alignment: Alignment(10, 0),
+                                          //         fit: BoxFit.cover,
+                                          //         repeat: true),
+                                          //   ),
+                                          // ),
+                                          // Offstage(
+                                          //   offstage: !showPayWaitting,
+                                          //   child: Container(
+                                          //     child: Container(
+                                          //       margin: EdgeInsets.fromLTRB(
+                                          //           0, 25, 0, 0),
+                                          //       child: Text(
+                                          //         '支付中 · · ·',
+                                          //         style: TextStyle(
+                                          //             color: Color.fromARGB(
+                                          //                 255, 53, 53, 53),
+                                          //             fontSize: 25 ,
+                                          //             fontWeight:
+                                          //                 FontWeight.bold),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          // Offstage(
+                                          //   offstage: showPayWaitting,
+                                          //   child: Container(
+                                          //     child: Container(
+                                          //       margin: EdgeInsets.fromLTRB(
+                                          //           0, 25, 0, 0),
+                                          //       child: Text(
+                                          //         '感谢购买',
+                                          //         style: TextStyle(
+                                          //             color: Color.fromARGB(
+                                          //                 255, 53, 53, 53),
+                                          //             fontSize: 25 ,
+                                          //             fontWeight:
+                                          //                 FontWeight.bold),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Container(
                                     height: 60,
                                     width: MediaQuery.sizeOf(context).width,
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                                     decoration: BoxDecoration(
                                       color: CupertinoDynamicColor.resolve(
@@ -256,6 +262,18 @@ class SettingState extends State<Setting> {
                                     ),
                                     child: Row(
                                       children: [
+                                        Container(
+                                          height: 40,
+                                          padding: EdgeInsets.all(5),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                          decoration: BoxDecoration(),
+                                          child: Image.asset(
+                                            'assets/images/wallet.png',
+                                            fit: BoxFit
+                                                .cover, // 这将确保图片以合适的方式填充容器
+                                          ),
+                                        ),
                                         Text('Wallet', style: defultTextOther)
                                       ],
                                     ),
@@ -263,7 +281,7 @@ class SettingState extends State<Setting> {
                                   Container(
                                     height: 60,
                                     width: MediaQuery.sizeOf(context).width,
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     decoration: BoxDecoration(
                                       color: CupertinoDynamicColor.resolve(
@@ -275,6 +293,18 @@ class SettingState extends State<Setting> {
                                     ),
                                     child: Row(
                                       children: [
+                                        Container(
+                                          height: 40,
+                                          padding: EdgeInsets.all(5),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                          decoration: BoxDecoration(),
+                                          child: Image.asset(
+                                            'assets/images/domain.png',
+                                            fit: BoxFit
+                                                .cover, // 这将确保图片以合适的方式填充容器
+                                          ),
+                                        ),
                                         Text('Domain', style: defultTextOther)
                                       ],
                                     ),
@@ -282,7 +312,7 @@ class SettingState extends State<Setting> {
                                   Container(
                                     height: 60,
                                     width: MediaQuery.sizeOf(context).width,
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     decoration: BoxDecoration(
                                       color: CupertinoDynamicColor.resolve(
@@ -294,6 +324,18 @@ class SettingState extends State<Setting> {
                                     ),
                                     child: Row(
                                       children: [
+                                        Container(
+                                          height: 40,
+                                          padding: EdgeInsets.all(5),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                          decoration: BoxDecoration(),
+                                          child: Image.asset(
+                                            'assets/images/app.png',
+                                            fit: BoxFit
+                                                .cover, // 这将确保图片以合适的方式填充容器
+                                          ),
+                                        ),
                                         Text('App', style: defultTextOther)
                                       ],
                                     ),
@@ -301,7 +343,7 @@ class SettingState extends State<Setting> {
                                   Container(
                                     height: 60,
                                     width: MediaQuery.sizeOf(context).width,
-                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     decoration: BoxDecoration(
                                       color: CupertinoDynamicColor.resolve(
@@ -313,6 +355,18 @@ class SettingState extends State<Setting> {
                                     ),
                                     child: Row(
                                       children: [
+                                        Container(
+                                          height: 40,
+                                          padding: EdgeInsets.all(5),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                          decoration: BoxDecoration(),
+                                          child: Image.asset(
+                                            'assets/images/logout.png',
+                                            fit: BoxFit
+                                                .cover, // 这将确保图片以合适的方式填充容器
+                                          ),
+                                        ),
                                         Text('Logout', style: defultTextOther)
                                       ],
                                     ),

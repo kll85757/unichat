@@ -14,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 
 final mainBlue = Color(0xFF5B9DFF),
     majorBlue = Color(0xFF5178E1),
+    mainBg = Color.fromARGB(255, 241, 241, 244),
     majorBlue1 = Color.fromARGB(255, 177, 196, 246),
     luckyYellow = Color(0xFFF6CB47),
     backColor1 = Color(0xFFF8F8F8),

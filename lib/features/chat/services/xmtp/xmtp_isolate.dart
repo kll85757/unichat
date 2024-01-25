@@ -108,12 +108,42 @@ Map<
         metadata: args[2] as Map<String, String>,
       )
       .then((convo) => convo.topic),
-  XmtpIsolateCommand.sendMessage.name: (_, sender, args) => sender
-      .sendMessage(
-        args[0] as String,
-        args as xmtp.EncodedContent,
-      )
-      .then((sent) => sent.id),
+  // XmtpIsolateCommand.sendMessage.name: (_, sender, args) => sender
+  //     .sendMessage(
+  //       args[0],
+  //       args[1],
+  //     )
+  //     .then((sent) => sent.id),
+
+  // XmtpIsolateCommand.sendMessage.name: (_, sender, args) => sender
+  //     .sendMessage(
+  //       args[0] as String,
+  //       args[1] as xmtp.EncodedContent,
+  //     )
+  //     .then((sent) => sent.id),
+  XmtpIsolateCommand.sendMessage.name: (_, sender, args) {
+    // 打印传递给函数的参数
+    print('sendMessage called with args: $args');
+
+    // 如果你想要单独打印每个参数
+    print('arg[0] (recipient): ${args[0]}');
+    print('arg[1] (message content): ${args[1]}');
+    if (args[1] is! xmtp.EncodedContent) {
+      print('args[1] is not EncodedContent. It is ${args[1].runtimeType}');
+    }
+
+    // 进行原始操作
+    return sender
+        .sendMessage(
+      args[0] as String,
+      args[1].fromBuffer as xmtp.EncodedContent,
+    )
+        .then((sent) {
+      // 打印返回的消息ID
+      print('Message sent with ID: ${sent.id}');
+      return sent.id;
+    });
+  },
 };
 
 Future<void> _mainXmtpIsolate(List args) async {

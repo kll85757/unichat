@@ -6,7 +6,9 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Colors.blueAccent,
+          ),
         ),
       );
 }

@@ -13,6 +13,9 @@ import 'di.dart';
 import 'features/session/module.dart';
 import 'features/session/services/session_cubit.dart';
 import 'routes.dart';
+import 'package:fluro/fluro.dart';
+import 'route/application.dart';
+import 'route/routers.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
@@ -32,13 +35,17 @@ Future<void> main() async {
       providers: const [
         SessionModule(),
       ],
-      child: const ChatApp(),
+      child: ChatApp(),
     ),
   );
 }
 
 class ChatApp extends StatefulWidget {
-  const ChatApp({super.key});
+  ChatApp() {
+    final router = new FluroRouter();
+    Routes.configureRoutes(router);
+    Application.routes = router;
+  }
 
   @override
   State<ChatApp> createState() => _State();

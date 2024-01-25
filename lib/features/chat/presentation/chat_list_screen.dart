@@ -17,6 +17,7 @@ import '../services/chat_service.dart';
 import 'widgets/new_chat_dialog.dart';
 import 'widgets/setting.dart';
 import 'widgets/chat.dart';
+import 'widgets/contacts.dart';
 import '../services/xmtp/xmtp_repository.dart';
 import 'package:xmtp/xmtp.dart' as xmtp;
 
@@ -55,10 +56,7 @@ class _State extends State<ChatListScreen> {
     //         separatorBuilder: (context, _) => const Divider(),
     //       );
     //     }),
-    Text(
-      'contacts',
-      style: optionStyle,
-    ),
+    Contacts(),
     Setting()
     // Text(
     //   'setting',
@@ -121,6 +119,7 @@ class _State extends State<ChatListScreen> {
           },
           selectedItemColor: Color.fromARGB(255, 63, 126, 249), // 选中项的颜色
           unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.white,
           currentIndex: currentPageIndex,
           items: [
             BottomNavigationBarItem(
